@@ -9,24 +9,53 @@
  * }
  */
 class Solution {
-    static ListNode l;
-    private static void func(ListNode temp,int sum[])
+    // static ListNode l;
+    // private static void func(ListNode temp,int sum[])
+    // {
+    //     if(temp==null)
+    //     {
+    //         return;
+    //     }
+    //     func(temp.next,sum);
+    //     sum[0]=Math.max(sum[0],l.val+temp.val);
+    //     l=l.next;
+    //     return;}
+    
+    private static ListNode findmid(ListNode head)
     {
-        if(temp==null)
+        ListNode slow=head;
+        ListNode fast=head;
+        while(fast!=null&&fast.next!=null)
         {
-            return;
+            slow=slow.next;
+            fast=fast.next.next;
         }
-        func(temp.next,sum);
-        sum[0]=Math.max(sum[0],l.val+temp.val);
-        l=l.next;
-        return;
+        return slow;
+    }
+    private static ListNode reverse(ListNode head)
+    {   ListNode prev=null;
+        ListNode temp=head;
+        while(temp!=null)
+        {
+            ListNode front=temp.next;
+            temp.next=prev;
+            prev=temp;
+            temp=front;
+            
+        }
+        return prev;
     }
     public int pairSum(ListNode head) {
-        l=head;
         ListNode temp=head;
-        int sum[]=new int[1];
-        sum[0]=Integer.MIN_VALUE;
-        func(temp,sum);
-        return sum[0];
+        ListNode mid=findmid(temp);
+        ListNode shead=reverse(mid);
+        int sum=0;
+        while(shead!=null)
+        {
+            sum=Math.max(sum,temp.val+shead.val);
+            temp=temp.next;
+            shead=shead.next;
+        }
+        return sum;       
     }
 }
